@@ -32,11 +32,11 @@ export const template = `<?xml version="1.0"?>
       <Style>
         <ows:Identifier>default</ows:Identifier>
       </Style>
-      <Format>image/png</Format>
+      <Format>{{ layer.format | default("image/png")}}</Format>
       <TileMatrixSetLink>
         <TileMatrixSet>{{ layer.tile_matrix_set }}</TileMatrixSet>
       </TileMatrixSetLink>
-      <ResourceURL format="image/png" resourceType="tile" template="{{ layer.wmts_url }}" />
+      <ResourceURL format="{{ layer.format | default("image/png")}}" resourceType="tile" template="{{ layer.wmts_url }}" />
     </Layer>
     {% endfor %}
     {% for tile_matrix_set in tile_matrix_sets %}

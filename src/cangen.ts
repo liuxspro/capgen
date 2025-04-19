@@ -167,6 +167,7 @@ export class MapLayer {
     public bbox: [GeoPoint, GeoPoint],
     public tile_matrix_set: DefaultTileMatrixSetName | string,
     public url: string,
+    public format?: string,
   ) {
     this.wmts_url = trans_url(url);
   }
