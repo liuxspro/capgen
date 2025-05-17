@@ -9,7 +9,7 @@ import type {
 } from "./types.ts";
 
 /**
- * 生成瓦片矩阵集 EPSG:3857
+ * 生成瓦片矩阵集 EPSG:3857 瓦片尺寸 256px
  * @param minZoom - 起始级别 (包含)
  * @param maxZoom - 最大级别 (包含)
  * @returns 返回 TileMatrix 集合
@@ -35,6 +35,39 @@ export function generate_tile_matrixs(
       top_left_corner: [-20037508.3427892, 20037508.3427892],
       tile_width: 256,
       tile_height: 256,
+      matrix_width: matrix_size,
+      matrix_height: matrix_size,
+    };
+  });
+}
+
+/**
+ * 生成瓦片矩阵集 EPSG:3857 瓦片尺寸 512px
+ * @param minZoom - 起始级别 (包含)
+ * @param maxZoom - 最大级别 (包含)
+ * @returns 返回 TileMatrix 集合
+ */
+export function generate_tile_matrixs_hd(
+  minZoom: number,
+  maxZoom: number,
+): TileMatrix[] {
+  if (!Number.isInteger(minZoom) || !Number.isInteger(maxZoom)) {
+    throw new Error("Zoom levels must be integers");
+  }
+
+  return Array.from({ length: maxZoom - minZoom + 1 }, (_, index) => {
+    const zoom = minZoom + index;
+    const BASE_SCALE: number = 559_082_264.028_7178 / 2;
+    const scale = BASE_SCALE / Math.pow(2, zoom);
+
+    const matrix_size = Math.pow(2, zoom);
+
+    return {
+      identifier: zoom.toString(),
+      scale_denominator: Number(scale),
+      top_left_corner: [-20037508.3427892, 20037508.3427892],
+      tile_width: 512,
+      tile_height: 512,
       matrix_width: matrix_size,
       matrix_height: matrix_size,
     };
@@ -110,6 +143,16 @@ const web_mercator_quad: TileMatrixSet = {
   tile_matrixs: generate_tile_matrixs(0, 18),
 };
 
+// web_mercator_quad 512px
+const web_mercator_quad_hd: TileMatrixSet = {
+  title: "Google Maps Compatible for the World",
+  id: "WebMercatorQuadHd",
+  supported_crs: "EPSG:3857",
+  wellknown_scale_set:
+    "http://www.opengis.net/def/wkss/OGC/1.0/GoogleMapsCompatible",
+  tile_matrixs: generate_tile_matrixs_hd(0, 18),
+};
+
 // https://docs.ogc.org/is/17-083r2/17-083r2.html#76
 // 此处使用了 EPSG:4326 变体
 const world_crs84_quad: TileMatrixSet = {
@@ -132,6 +175,7 @@ const cgcs2000_quad: TileMatrixSet = {
 
 export const default_matrix = {
   WebMercatorQuad: web_mercator_quad,
+  WebMercatorQuadHd: web_mercator_quad_hd,
   WorldCRS84Quad: world_crs84_quad,
   CGCS2000: cgcs2000_quad,
 };
