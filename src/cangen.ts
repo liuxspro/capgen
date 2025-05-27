@@ -58,7 +58,7 @@ export class MapLayer {
     this.wmts_url = this.trans_url(this.url + `&${tk_name}=${token}`);
   }
 
-  protected trans_url(url: string) {
+  protected trans_url(url: string): string {
     return url
       .replace(/\{z\}/g, "{TileMatrix}")
       .replace(/\{x\}/g, "{TileCol}")
@@ -72,7 +72,7 @@ export class Capabilities {
   constructor(public service: Service, public layers: MapLayer[]) {
   }
 
-  get xml() {
+  get xml(): string {
     const env = new Environment();
     env.trimBlocks = true;
     env.lstripBlocks = true;

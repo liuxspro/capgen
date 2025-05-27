@@ -112,7 +112,7 @@ export class TileMatrixSet {
     return generate_tile_matrixs(min, max);
   }
 
-  clone() {
+  clone(): this {
     return cloneDeep(this);
   }
 }
@@ -160,7 +160,7 @@ export class CRS84TileMatrixSet extends TileMatrixSet {
 // 常用瓦片矩阵集
 // WebMercator (256px)
 // https://docs.ogc.org/is/17-083r2/17-083r2.html#73
-export const web_mercator_quad = new TileMatrixSet(
+export const web_mercator_quad: TileMatrixSet = new TileMatrixSet(
   "Google Maps Compatible for the World",
   "WebMercatorQuad",
   "EPSG:3857",
@@ -170,7 +170,7 @@ export const web_mercator_quad = new TileMatrixSet(
 );
 
 // web_mercator_quad (512px)
-export const web_mercator_quad_hd = new TileMatrixSetHd(
+export const web_mercator_quad_hd: TileMatrixSetHd = new TileMatrixSetHd(
   "Google Maps Compatible for the World",
   "WebMercatorQuadHd",
   "EPSG:3857",
@@ -181,7 +181,7 @@ export const web_mercator_quad_hd = new TileMatrixSetHd(
 
 // https://docs.ogc.org/is/17-083r2/17-083r2.html#76
 // 此处使用了 EPSG:4326 变体
-export const world_crs84_quad = new CRS84TileMatrixSet(
+export const world_crs84_quad: CRS84TileMatrixSet = new CRS84TileMatrixSet(
   "CRS84 for the World",
   "WorldCRS84Quad",
   "EPSG:4326",
@@ -190,7 +190,7 @@ export const world_crs84_quad = new CRS84TileMatrixSet(
   18,
 );
 // 与 EPSG:4326 基本一样
-export const cgcs2000_quad = new CRS84TileMatrixSet(
+export const cgcs2000_quad: CRS84TileMatrixSet = new CRS84TileMatrixSet(
   "CRS84 for the World",
   "WorldCRS84Quad",
   "EPSG:4490",
